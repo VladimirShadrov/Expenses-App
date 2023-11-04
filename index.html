@@ -7,6 +7,104 @@
     <title>Expenses App</title>
   </head>
   <body>
+    <div class="container">
+      <div class="expenses">
+        <h3 class="title">Учет расходов</h3>
+
+        <div class="expenses__head">
+          <div class="left-bar">
+            <div class="input-wrapper">
+              <!-- Для отображения тултипа добавить класс "tooltip-error" -->
+              <div class="expenses-input__container">
+                <input class="expenses-input" type="text" placeholder="Сумма затрат.." />
+                <span class="input-currency">руб.</span>
+                <span class="tooltip">
+                  <span class="tooltip-text">Введите число</span>
+                </span>
+              </div>
+
+              <!-- Для открытия списка добавить класс "dropdown-active" -->
+              <div class="dropdown">
+                <div class="dropdown__head">
+                  <div class="selected-value">Элемент 3</div>
+                  <button class="dropdown__btn">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M20.8839 25.8839C20.3957 26.372 19.6043 26.372 19.1161 25.8839L11.1612 17.9289C10.673 17.4408 10.673 16.6493 11.1612 16.1612C11.6493 15.673 12.4408 15.673 12.9289 16.1612L20 23.2322L27.0711 16.1612C27.5592 15.673 28.3507 15.673 28.8388 16.1612C29.327 16.6493 29.327 17.4408 28.8388 17.9289L20.8839 25.8839ZM21.25 24L21.25 25L18.75 25L18.75 24L21.25 24Z"
+                        fill="black"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div class="dropdown__list">
+                  <div class="dropdown__list-item">Элемент 1</div>
+                  <div class="dropdown__list-item">Элемент 2</div>
+                  <div class="dropdown__list-item">Элемент 3</div>
+                  <div class="dropdown__list-item">Элемент 4</div>
+                  <div class="dropdown__list-item">Элемент 5</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="right-bar">
+            <button class="add-button">Добавить</button>
+          </div>
+        </div>
+
+        <div class="expenses__body">
+          <div class="left-bar">
+            <div class="option">
+              <div class="option__title">Лимит:</div>
+              <div class="option__value js-limit">10000 руб.</div>
+              <button class="option__btn js-edit-limit-btn" title="Изменить лимит">
+                <img class="icon" src="./images/icon.png" alt="expenses-img" />
+              </button>
+            </div>
+            <div class="option option__value-total">
+              <div class="option__title">Всего:</div>
+              <div class="option__value js-total-expenses">1350 руб.</div>
+            </div>
+            <!--
+                - Если все хорошо добавить класс "option__status-good"
+                - Если все плохо добавить класс "option__status-bad"
+            -->
+            <div class="option option__status-good">
+              <div class="option__title">Статус:</div>
+              <div class="option__value js-status">все хорошо</div>
+            </div>
+          </div>
+
+          <div class="right-bar history-wrapper">
+            <h3 class="history-title">История:</h3>
+            <div class="expenses-list js-expenses-list">
+              <div class="expenses-list__item">
+                <div class="item-number">1.</div>
+                <div class="item-value">100 руб.</div>
+                <span class="defis">-</span>
+                <div class="item-category">кафе и рестораны</div>
+              </div>
+              <div class="expenses-list__item">
+                <div class="item-number">2.</div>
+                <div class="item-value">600 руб.</div>
+                <span class="defis">-</span>
+                <div class="item-category">шаурма</div>
+              </div>
+              <div class="expenses-list__item">
+                <div class="item-number">3.</div>
+                <div class="item-value">1100 руб.</div>
+                <span class="defis">-</span>
+                <div class="item-category">кинотеатр</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="expenses__actions">
+          <button class="reset-expenses js-reset-expenses-btn">Сбросить расходы</button>
+        </div>
+      </div>
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>

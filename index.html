@@ -15,18 +15,18 @@
           <div class="left-bar">
             <div class="input-wrapper">
               <!-- Для отображения тултипа добавить класс "tooltip-error" -->
-              <div class="input__container">
-                <input class="input" type="text" placeholder="Сумма затрат.." />
+              <div class="js-sum-container input__container">
+                <input class="js-sum-input input" type="text" placeholder="Сумма затрат.." />
                 <span class="input-currency">руб.</span>
                 <span class="tooltip">
-                  <span class="tooltip-text">Введите число</span>
+                  <span class="js-error-cost-tooltip tooltip-text">Введите положительное число</span>
                 </span>
               </div>
 
               <!-- Для открытия списка добавить класс "dropdown-active" -->
-              <div class="dropdown">
-                <div class="dropdown__head">
-                  <div class="selected-value">Элемент 3</div>
+              <div class="js-dropdown-wrapper dropdown">
+                <div class="js-dropdown-head dropdown__head">
+                  <div class="js-selected-value selected-value">Добавьте статью расходов</div>
                   <button class="dropdown__btn">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -37,18 +37,18 @@
                   </button>
                 </div>
                 <div class="dropdown__list">
-                  <div class="dropdown__list-item">Элемент 1</div>
-                  <div class="dropdown__list-item">Элемент 2</div>
-                  <div class="dropdown__list-item">Элемент 3</div>
-                  <div class="dropdown__list-item">Элемент 4</div>
-                  <div class="dropdown__list-item">Элемент 5</div>
+                  <div class="js-dropdown__list-item dropdown__list-item" data-id="Продукты питания">Продукты питания</div>
+                  <div class="js-dropdown__list-item dropdown__list-item" data-id="Спорт">Спорт</div>
+                  <div class="js-dropdown__list-item dropdown__list-item" data-id="Поход в кино">Поход в кино</div>
+                  <div class="js-dropdown__list-item dropdown__list-item" data-id="Кафе и рестораны">Кафе и рестораны</div>
+                  <div class="js-dropdown__list-item dropdown__list-item" data-id="Чаевые">Чаевые</div>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="right-bar">
-            <button class="action-btn">Добавить</button>
+            <button class="js-add-sum action-btn">Добавить</button>
           </div>
         </div>
 
@@ -56,14 +56,14 @@
           <div class="left-bar">
             <div class="option">
               <div class="option__title">Лимит:</div>
-              <div class="option__value js-limit">10000 руб.</div>
-              <button class="option__btn js-edit-limit-btn" title="Изменить лимит">
+              <div class="option__value"><span class="js-limit">10000</span> руб.</div>
+              <button class="js-correct-limit-btn option__btn" title="Изменить лимит">
                 <img class="icon" src="./images/icon.png" alt="expenses-img" />
               </button>
             </div>
             <div class="option option__value-total">
               <div class="option__title">Всего:</div>
-              <div class="option__value js-total-expenses">1350 руб.</div>
+              <div class="option__value js-total-expenses"><span class="js-total-expenses">1350</span> руб.</div>
             </div>
             <!--
                 - Если все хорошо добавить класс "option__status-good"
@@ -77,39 +77,20 @@
 
           <div class="right-bar history-wrapper">
             <h3 class="history-title">История:</h3>
-            <div class="expenses-list js-expenses-list">
-              <div class="expenses-list__item">
-                <div class="item-number">1.</div>
-                <div class="item-value">100 руб.</div>
-                <span class="defis">-</span>
-                <div class="item-category">кафе и рестораны</div>
-              </div>
-              <div class="expenses-list__item">
-                <div class="item-number">2.</div>
-                <div class="item-value">600 руб.</div>
-                <span class="defis">-</span>
-                <div class="item-category">шаурма</div>
-              </div>
-              <div class="expenses-list__item">
-                <div class="item-number">3.</div>
-                <div class="item-value">1100 руб.</div>
-                <span class="defis">-</span>
-                <div class="item-category">кинотеатр</div>
-              </div>
-            </div>
+            <div class="js-history-list expenses-list"></div>
           </div>
         </div>
 
         <div class="expenses__actions">
-          <button class="reset-expenses js-reset-expenses-btn">Сбросить расходы</button>
+          <button class="js-reset-expenses-btn reset-expenses">Сбросить расходы</button>
         </div>
         <!-- Для отображения окна добавить класс "modal-active" -->
-        <div class="overlay">
+        <div class="js-modal overlay">
           <div class="modal">
             <div class="modal__wrapper">
               <div class="modal__head">
                 <h3 class="modal__title">Новый лимит</h3>
-                <button class="js-close-btn close-btn" title="Закрыть">
+                <button class="js-close-modal-btn close-btn" title="Закрыть">
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       fill-rule="evenodd"
@@ -122,7 +103,7 @@
               </div>
               <div class="modal__body">
                 <div class="content-wrapper">
-                  <div class="input__container">
+                  <div class="js-limit-container input__container">
                     <input class="input" type="text" placeholder="Новый лимит.." />
                     <span class="input-currency">руб.</span>
                     <span class="tooltip">

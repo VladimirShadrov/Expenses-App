@@ -41,6 +41,14 @@
   border: 1px solid black;
 }
 
+.input__container.tooltip-error .input {
+  background: lightpink;
+}
+
+.input__container.tooltip-error .input::placeholder {
+  color: gray;
+}
+
 .input__container.tooltip-error .tooltip {
   max-height: 44px;
 }
@@ -53,6 +61,7 @@
   border: none;
   outline: none;
   padding-right: 85px;
+  transition: all 0.3s;
 }
 
 .input::placeholder {
@@ -76,8 +85,8 @@
   bottom: calc(100% + 3px);
   transition: all 0.3s;
   max-height: 0;
-  width: 145px;
   overflow: hidden;
+  padding: 0 12px;
 }
 
 .tooltip-text {
@@ -105,8 +114,8 @@
 .dropdown__head {
   display: flex;
   align-items: center;
-  height: 58px;
-  padding: 0 12px;
+  min-height: 58px;
+  padding: 4px 12px;
   cursor: pointer;
 }
 
@@ -328,6 +337,7 @@
 
 .close-btn > svg {
   transition: all 0.3s;
+  pointer-events: none;
 }
 
 .close-btn:hover > svg > path {

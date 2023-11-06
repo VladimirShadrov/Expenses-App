@@ -1,7 +1,6 @@
 const $expensesInputContainer = document.querySelector('.js-sum-container');
 const $expensesSumInput = $expensesInputContainer.querySelector('.js-sum-input');
 const $addBtn = document.querySelector('.js-add-sum');
-const $correctLimitBtn = document.querySelector('.js-correct-limit-btn');
 const $resetBtn = document.querySelector('.js-reset-expenses-btn');
 const $errorCostTooltip = document.querySelector('.js-error-cost-tooltip');
 const $dropdownContainer = document.querySelector('.js-dropdown-wrapper');
@@ -11,6 +10,7 @@ const $dropdownSelectedValue = $dropdownContainer.querySelector('.js-selected-va
 const $historyList = document.querySelector('.js-history-list');
 const $modalContainer = document.querySelector('.js-modal');
 const $modalCloseBtn = $modalContainer.querySelector('.js-close-modal-btn');
+const $newLimitContainer = $modalContainer.querySelector('.js-limit-container');
 const $newLimitInput = $modalContainer.querySelector('.js-new-limit-input');
 const $setLimitBtn = $modalContainer.querySelector('.js-set-limit-btn');
 const $openCorrectModalBtn = document.querySelector('.js-correct-limit-btn');
@@ -30,20 +30,19 @@ let totalExpenses = 0;
  */
 document.body.addEventListener('click', bodyClickHandler.bind(this));
 $addBtn.addEventListener('click', addCostItem.bind(this, $expensesSumInput));
-$correctLimitBtn.addEventListener('click', () => console.log('Correct'));
 $resetBtn.addEventListener('click', clearExpenses.bind(this));
 $dropdownHead.addEventListener('click', showDropdownList.bind(this));
 $dropdownItemList.forEach((item) => {
   item.addEventListener('click', selectExpensesType.bind(this, item));
 });
 $openCorrectModalBtn.addEventListener('click', showModal.bind(this));
-$setLimitBtn.addEventListener('click', () => console.log('Задаю новый лимит'));
+$setLimitBtn.addEventListener('click', updateLimit.bind(this));
 
 /**
  * Добавление затрат
  */
 function addCostItem(input) {
-  if (!validateCostInput(input)) {
+  if (!validateInput(input)) {
     showValidationError($expensesInputContainer);
   } else {
     const expensesItem = createExpensesItem(Number(input.value));
@@ -53,14 +52,6 @@ function addCostItem(input) {
     clearSelection();
     updateExpensesSum();
     validateStatus();
-  }
-}
-
-function validateCostInput(input) {
-  if (!input.value || isNaN(Number(input.value)) || Number(input.value) <= 0) {
-    return false;
-  } else {
-    return true;
   }
 }
 
@@ -186,10 +177,31 @@ function showModal() {
 
 function hideModal() {
   $modalContainer.classList.remove('modal-active');
+  clearLimitInput();
 }
 
-function setLimit(value) {
+function setLimit(newValue) {
+  limit = +newValue;
+  setLimitText(limit);
+}
+
+function setLimitText(value) {
   $limitValue.innerText = value.toLocaleString();
+}
+
+function updateLimit() {
+  if (!validateInput($newLimitInput)) {
+    showValidationError($newLimitContainer);
+  } else {
+    hideValidationError($newLimitContainer);
+    setLimit($newLimitInput.value);
+    validateStatus();
+    hideModal();
+  }
+}
+
+function clearLimitInput() {
+  $newLimitInput.value = '';
 }
 
 /**
@@ -214,13 +226,21 @@ function hideValidationError(element) {
   element.classList.remove('tooltip-error');
 }
 
+function validateInput(input) {
+  if (!input.value || isNaN(Number(input.value)) || Number(input.value) <= 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 /**
  * Инициализация приложения
  */
 function init() {
-  renderExpensesList();
   clearSelection();
-  setLimit(limit);
+  renderExpensesList();
+  setLimitText(limit);
   updateExpensesSum();
   validateStatus();
 }

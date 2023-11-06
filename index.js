@@ -15,11 +15,12 @@ const $openCorrectModalBtn = document.querySelector('.js-correct-limit-btn');
 const $limitValue = document.querySelector('.js-limit');
 const $total = document.querySelector('.js-total-expenses');
 
-const expensesData = [];
+let expensesData = [];
 let selectedExpensesType = '';
 let isExpensesTypeSelected = false;
 let isDropdownOpen = false;
 let limit = 10000;
+let totalExpenses = 0;
 
 /**
  * Добавление слушателей
@@ -27,7 +28,7 @@ let limit = 10000;
 document.body.addEventListener('click', bodyClickHandler.bind(this));
 $addBtn.addEventListener('click', addCostItem.bind(this, $expensesSumInput));
 $correctLimitBtn.addEventListener('click', () => console.log('Correct'));
-$resetBtn.addEventListener('click', () => console.log('Reset'));
+$resetBtn.addEventListener('click', clearExpenses.bind(this));
 $dropdownHead.addEventListener('click', showDropdownList.bind(this));
 $dropdownItemList.forEach((item) => {
   item.addEventListener('click', selectExpensesType.bind(this, item));
@@ -41,11 +42,13 @@ function addCostItem(input) {
   if (!validateCostInput(input)) {
     showValidationError($expensesInputContainer);
   } else {
-    const expensesItem = createExpensesItem(Number(input.value), selectedExpensesType);
+    const expensesItem = createExpensesItem(Number(input.value));
     hideValidationError($expensesInputContainer);
     expensesData.push(expensesItem);
     renderExpensesList();
     clearSelection();
+    updateExpensesSum();
+    updateStatus();
   }
 }
 
@@ -57,9 +60,9 @@ function validateCostInput(input) {
   }
 }
 
-function createExpensesItem(expensesSum, expensesType) {
+function createExpensesItem(expensesSum) {
   return {
-    expensesSum: expensesSum.toLocaleString(),
+    expensesSum: expensesSum,
     expensesType: isExpensesTypeSelected ? selectedExpensesType : 'Забыл за что',
   };
 }
@@ -94,7 +97,7 @@ function renderExpensesList() {
     historyHtml += `
     <div class="expenses-list__item">
       <div class="item-number">${index + 1}.</div>
-      <div class="item-value">${item.expensesSum} руб.</div>
+      <div class="item-value">${item.expensesSum.toLocaleString()} руб.</div>
       <span class="defis">-</span>
       <div class="item-category">${item.expensesType}</div>
     </div>
@@ -109,6 +112,41 @@ function clearSelection() {
   selectedExpensesType = 'Добавьте статью расходов';
   $dropdownSelectedValue.innerText = selectedExpensesType;
   isExpensesTypeSelected = false;
+}
+
+/**
+ * Посчитать общую сумму затрат
+ */
+function updateExpensesSum() {
+  calculateCotsAmount();
+  writeNewAmount();
+}
+
+function calculateCotsAmount() {
+  totalExpenses = expensesData.reduce((acc, item) => acc + item.expensesSum, 0);
+}
+
+function writeNewAmount() {
+  $total.innerText = `${totalExpenses.toLocaleString()} руб.`;
+}
+
+/**
+ * Проверить статус
+ */
+function updateStatus() {}
+
+/**
+ * Сбросить расходы
+ */
+function clearExpenses() {
+  if (!expensesData.length) {
+    return;
+  }
+
+  expensesData = [];
+  calculateCotsAmount();
+  writeNewAmount();
+  renderExpensesList();
 }
 
 /**
@@ -155,6 +193,7 @@ function init() {
   renderExpensesList();
   clearSelection();
   setLimit(limit);
+  updateExpensesSum();
 }
 
 init();

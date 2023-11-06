@@ -14,7 +14,6 @@
         <div class="expenses__head">
           <div class="left-bar">
             <div class="input-wrapper">
-              <!-- Для отображения тултипа добавить класс "tooltip-error" -->
               <div class="js-sum-container input__container">
                 <input class="js-sum-input input" type="text" placeholder="Сумма затрат.." />
                 <span class="input-currency">руб.</span>
@@ -23,7 +22,6 @@
                 </span>
               </div>
 
-              <!-- Для открытия списка добавить класс "dropdown-active" -->
               <div class="js-dropdown-wrapper dropdown">
                 <div class="js-dropdown-head dropdown__head">
                   <div class="js-selected-value selected-value">Добавьте статью расходов</div>
@@ -65,13 +63,9 @@
               <div class="option__title">Всего:</div>
               <div class="option__value js-total-expenses"><span class="js-total-expenses">1350</span> руб.</div>
             </div>
-            <!--
-                - Если все хорошо добавить класс "option__status-good"
-                - Если все плохо добавить класс "option__status-bad"
-            -->
-            <div class="option option__status-good">
+            <div class="option">
               <div class="option__title">Статус:</div>
-              <div class="option__value js-status">все хорошо</div>
+              <div class="js-status option__value">Все хорошо</div>
             </div>
           </div>
 
@@ -84,7 +78,6 @@
         <div class="expenses__actions">
           <button class="js-reset-expenses-btn reset-expenses">Сбросить расходы</button>
         </div>
-        <!-- Для отображения окна добавить класс "modal-active" -->
         <div class="js-modal overlay">
           <div class="modal">
             <div class="modal__wrapper">
@@ -104,13 +97,13 @@
               <div class="modal__body">
                 <div class="content-wrapper">
                   <div class="js-limit-container input__container">
-                    <input class="input" type="text" placeholder="Новый лимит.." />
+                    <input class="js-new-limit-input input" type="text" placeholder="Новый лимит.." />
                     <span class="input-currency">руб.</span>
                     <span class="tooltip">
                       <span class="tooltip-text">Введите число</span>
                     </span>
                   </div>
-                  <button class="action-btn">Задать лимит</button>
+                  <button class="js-set-limit-btn action-btn">Задать лимит</button>
                 </div>
               </div>
             </div>

@@ -191,20 +191,19 @@
 
 .option {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   margin-bottom: 14px;
-  white-space: nowrap;
 }
 
 .option.option__value-total {
   margin-bottom: 36px;
 }
 
-.option.option__status-bad .option__value {
+.option__value.option__status-bad {
   color: red;
 }
 
-.option.option__status-good .option__value {
+.option__value.option__status-good {
   color: #039000;
 }
 

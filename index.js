@@ -11,9 +11,12 @@ const $dropdownSelectedValue = $dropdownContainer.querySelector('.js-selected-va
 const $historyList = document.querySelector('.js-history-list');
 const $modalContainer = document.querySelector('.js-modal');
 const $modalCloseBtn = $modalContainer.querySelector('.js-close-modal-btn');
+const $newLimitInput = $modalContainer.querySelector('.js-new-limit-input');
+const $setLimitBtn = $modalContainer.querySelector('.js-set-limit-btn');
 const $openCorrectModalBtn = document.querySelector('.js-correct-limit-btn');
 const $limitValue = document.querySelector('.js-limit');
 const $total = document.querySelector('.js-total-expenses');
+const $status = document.querySelector('.js-status');
 
 let expensesData = [];
 let selectedExpensesType = '';
@@ -34,6 +37,7 @@ $dropdownItemList.forEach((item) => {
   item.addEventListener('click', selectExpensesType.bind(this, item));
 });
 $openCorrectModalBtn.addEventListener('click', showModal.bind(this));
+$setLimitBtn.addEventListener('click', () => console.log('Задаю новый лимит'));
 
 /**
  * Добавление затрат
@@ -48,7 +52,7 @@ function addCostItem(input) {
     renderExpensesList();
     clearSelection();
     updateExpensesSum();
-    updateStatus();
+    validateStatus();
   }
 }
 
@@ -131,11 +135,6 @@ function writeNewAmount() {
 }
 
 /**
- * Проверить статус
- */
-function updateStatus() {}
-
-/**
  * Сбросить расходы
  */
 function clearExpenses() {
@@ -147,6 +146,35 @@ function clearExpenses() {
   calculateCotsAmount();
   writeNewAmount();
   renderExpensesList();
+  validateStatus();
+}
+
+/**
+ * Валидация расходов
+ */
+function validateStatus() {
+  const difference = limit - totalExpenses;
+  updateStatus(difference);
+}
+
+function updateStatus(difference) {
+  if (difference >= 0) {
+    clearStatusError();
+    $status.innerText = 'Все хорошо';
+  } else {
+    addStatusError();
+    $status.innerText = `Все плохо (${difference.toLocaleString()} руб.)`;
+  }
+}
+
+function addStatusError() {
+  $status.classList.remove('option__status-good');
+  $status.classList.add('option__status-bad');
+}
+
+function clearStatusError() {
+  $status.classList.add('option__status-good');
+  $status.classList.remove('option__status-bad');
 }
 
 /**
@@ -194,6 +222,7 @@ function init() {
   clearSelection();
   setLimit(limit);
   updateExpensesSum();
+  validateStatus();
 }
 
 init();

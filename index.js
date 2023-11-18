@@ -18,9 +18,60 @@ const $limitValue = document.querySelector('.js-limit');
 const $total = document.querySelector('.js-total-expenses');
 const $status = document.querySelector('.js-status');
 
+const expensesFieldsObject = {
+  sum: {
+    field: $expensesSumInput,
+    parent: $expensesInputContainer,
+    get isValid() {
+      return +this.field.value ? true : false;
+    },
+    showValidationError() {
+      this.parent.classList.add('tooltip-error');
+    },
+    clearError() {
+      this.parent.classList.remove('tooltip-error');
+    },
+  },
+  type: {
+    field: $dropdownSelectedValue,
+    parent: $dropdownContainer,
+    get isValid() {
+      return this.field.innerText !== 'Добавьте статью расходов';
+    },
+    showValidationError() {
+      this.parent.classList.add('tooltip-error');
+    },
+    clearError() {
+      this.parent.classList.remove('tooltip-error');
+    },
+  },
+
+  get formValid() {
+    return this.sum.isValid && this.type.isValid;
+  },
+};
+
+const limitObject = {
+  newLimit: {
+    field: $newLimitInput,
+    parent: $newLimitContainer,
+    get isValid() {
+      return +this.field.value ? true : false;
+    },
+    showValidationError() {
+      this.parent.classList.add('tooltip-error');
+    },
+    clearError() {
+      this.parent.classList.remove('tooltip-error');
+    },
+  },
+  get formValid() {
+    return this.newLimit.isValid;
+  },
+};
+
 let expensesData = [];
 let selectedExpensesType = '';
-let isExpensesTypeSelected = false;
 let isDropdownOpen = false;
 let limit = 10000;
 let totalExpenses = 0;
@@ -37,16 +88,19 @@ $dropdownItemList.forEach((item) => {
 });
 $openCorrectModalBtn.addEventListener('click', showModal.bind(this));
 $setLimitBtn.addEventListener('click', updateLimit.bind(this));
+$expensesSumInput.addEventListener('focus', () => {
+  expensesFieldsObject.sum.clearError();
+});
+$newLimitInput.addEventListener('focus', () => {
+  limitObject.newLimit.clearError();
+});
 
 /**
  * Добавление затрат
  */
 function addCostItem(input) {
-  if (!validateInput(input)) {
-    showValidationError($expensesInputContainer);
-  } else {
+  if (validateInput(expensesFieldsObject)) {
     const expensesItem = createExpensesItem(Number(input.value));
-    hideValidationError($expensesInputContainer);
     expensesData.push(expensesItem);
     renderExpensesList();
     clearSelection();
@@ -58,12 +112,14 @@ function addCostItem(input) {
 function createExpensesItem(expensesSum) {
   return {
     expensesSum: expensesSum,
-    expensesType: isExpensesTypeSelected ? selectedExpensesType : 'Забыл за что',
+    expensesType: selectedExpensesType,
   };
 }
 
 function showDropdownList() {
+  expensesFieldsObject.type.clearError();
   $dropdownContainer.classList.add('dropdown-active');
+
   setTimeout(() => (isDropdownOpen = true), 300);
 }
 
@@ -73,7 +129,6 @@ function hideDropdownList() {
 }
 
 function selectExpensesType(listItem) {
-  isExpensesTypeSelected = true;
   selectedExpensesType = listItem.dataset.id;
   $dropdownSelectedValue.innerText = selectedExpensesType;
   hideDropdownList();
@@ -106,7 +161,6 @@ function clearSelection() {
   $expensesSumInput.value = '';
   selectedExpensesType = 'Добавьте статью расходов';
   $dropdownSelectedValue.innerText = selectedExpensesType;
-  isExpensesTypeSelected = false;
 }
 
 /**
@@ -178,6 +232,7 @@ function showModal() {
 function hideModal() {
   $modalContainer.classList.remove('modal-active');
   clearLimitInput();
+  limitObject.newLimit.clearError();
 }
 
 function setLimit(newValue) {
@@ -190,10 +245,7 @@ function setLimitText(value) {
 }
 
 function updateLimit() {
-  if (!validateInput($newLimitInput)) {
-    showValidationError($newLimitContainer);
-  } else {
-    hideValidationError($newLimitContainer);
+  if (validateInput(limitObject)) {
     setLimit($newLimitInput.value);
     validateStatus();
     hideModal();
@@ -218,19 +270,23 @@ function bodyClickHandler(event) {
 /**
  * Общие функции
  */
-function showValidationError(element) {
-  element.classList.add('tooltip-error');
-}
 
-function hideValidationError(element) {
-  element.classList.remove('tooltip-error');
-}
+function validateInput(fieldsObject) {
+  Object.values(fieldsObject).forEach((field) => {
+    if (field instanceof Object) {
+      field.clearError();
+    }
+  });
 
-function validateInput(input) {
-  if (!input.value || isNaN(Number(input.value)) || Number(input.value) <= 0) {
-    return false;
-  } else {
+  if (fieldsObject.formValid) {
     return true;
+  } else {
+    Object.values(fieldsObject).forEach((field) => {
+      if (field instanceof Object && !field.isValid) {
+        field.showValidationError();
+      }
+    });
+    return false;
   }
 }
 

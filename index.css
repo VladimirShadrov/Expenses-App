@@ -50,7 +50,7 @@
 }
 
 .input__container.tooltip-error .tooltip {
-  max-height: 44px;
+  max-height: 25px;
 }
 
 .input {
@@ -82,11 +82,14 @@
   position: absolute;
   z-index: 1;
   left: 12px;
-  bottom: calc(100% + 3px);
+  bottom: 80%;
   transition: all 0.3s;
   max-height: 0;
   overflow: hidden;
   padding: 0 12px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tooltip-text {
@@ -105,6 +108,14 @@
 .dropdown.dropdown-active > .dropdown__list {
   max-height: 300px;
   overflow-y: auto;
+}
+
+.dropdown.tooltip-error {
+  background: lightpink;
+}
+
+.dropdown.tooltip-error .tooltip {
+  max-height: 25px;
 }
 
 .dropdown.dropdown-active .dropdown__btn {
